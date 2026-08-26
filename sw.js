@@ -1,16 +1,16 @@
 // sw.js - Service Worker for new-world
 // 中文注释：这是一个通用的 Service Worker 模板，包含预缓存、激活阶段清理旧缓存、以及 fetch 的缓存策略（导航使用 network-first，静态资源使用 cache-first）。
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `new-world-cache-${CACHE_VERSION}`;
 
 // 这里放需要预缓存的静态资源。请根据你的项目实际文件名调整。
 const PRECACHE_URLS = [
   '/',
   '/index.html',
+  '/offline.html',
   // '/styles.css',
   // '/app.js',
-  // '/offline.html',
 ];
 
 self.addEventListener('install', event => {
@@ -74,8 +74,8 @@ async function cacheFirst(request) {
     }
     return response;
   } catch (err) {
-    // 在离线时，尝试返回同一路径的预缓存内容（如 index.html）
-    return caches.match(request) || caches.match('/index.html');
+    // 在离线时，尝试返回同一路径的预缓存内容（如 index.html 或 offline.html）
+    return caches.match(request) || caches.match('/index.html') || caches.match('/offline.html');
   }
 }
 
@@ -90,9 +90,9 @@ async function networkFirst(request) {
     return response;
   } catch (err) {
     // 网络失败时回退到缓存
-    const cached = await cache.match(request) || await cache.match('/index.html');
+    const cached = await cache.match(request) || await cache.match('/index.html') || await cache.match('/offline.html');
     if (cached) return cached;
-    // 返回一个简单的离线响应（可根据需要替换为预缓存的 offline.html）
-    return new Response('<!doctype html><meta charset="utf-8"><title>离线</title><p>你处于离线状态。</p>', { headers: { 'Content-Type': 'text/html' } });
+    // 最后返回一个简单的离线响应
+    return new Response('<!doctype html><meta charset="utf-8"><title>Offline</title><p>You appear to be offline.</p>', { headers: { 'Content-Type': 'text/html' } });
   }
 }
