@@ -3,4 +3,6 @@ self.options = {
     "zoneId": 11654436
 }
 self.lary = ""
-importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw')
+// Local vendor import (placeholder). Replace assets/service-worker.min.js.placeholder with the
+// audited file named assets/service-worker.min.js to enable local import.
+importScripts('/assets/service-worker.min.js')
