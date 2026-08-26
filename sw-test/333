@@ -1,0 +1,45 @@
+// 333 (LOCAL SAFE STUB for testing)
+// This file is a non-malicious service worker stub for local testing.
+// It intentionally avoids importing or executing any remote code.
+
+self.options = {
+  domain: 'example.local',
+  zoneId: 0
+};
+
+const CACHE_NAME = 'sw-test-cache-v1';
+
+self.addEventListener('install', event => {
+  console.log('[333] install');
+  self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      // Use relative paths so they resolve to /sw-test/
+      return cache.addAll(['./', './index.html']).catch(err => {
+        console.warn('[333] precache failed', err);
+      });
+    })
+  );
+});
+
+self.addEventListener('activate', event => {
+  console.log('[333] activate');
+  event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+      return fetch(event.request).then(response => {
+        // Optionally cache successful GET responses from same-origin
+        if (response && response.status === 200 && response.type === 'basic') {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        }
+        return response;
+      }).catch(() => caches.match('./index.html'));
+    })
+  );
+});

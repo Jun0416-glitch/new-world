@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SW Test - Safe Stub</title>
+  <style>body{font-family:system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;padding:1.5rem}</style>
+</head>
+<body>
+  <h1>Service Worker Safe Test (sw-test)</h1>
+  <p>This page registers a <code>sw-test/333</code> service worker stub (safe, local) for testing registration, caching and offline fallback without loading remote scripts.</p>
+  <p>Instructions:
+    <ol>
+      <li>Start a local server from the repository root: <code>python3 -m http.server 8080</code> (or similar).</li>
+      <li>Open <a href="/sw-test/">http://localhost:8080/sw-test/</a> in a browser launched with a fresh profile.</li>
+      <li>Use DevTools → Application → Service Workers and Cache Storage to inspect registration and caches.</li>
+    </ol>
+  </p>
+  <button id="unregister">Unregister SW</button>
+  <pre id="log" style="background:#f6f8fa;padding:1rem;border-radius:6px;max-height:240px;overflow:auto"></pre>
+
+  <script>
+    const logEl = document.getElementById('log');
+    function log(...args){ console.log(...args); logEl.textContent += args.join(' ') + '\n'; }
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw-test/333', { scope: '/sw-test/' }).then(r => {
+        log('SW registered:', r.scope, 'active:', !!r.active);
+      }).catch(e => {
+        log('SW register failed:', e);
+      });
+    } else {
+      log('Service Worker not supported in this browser');
+    }
+
+    document.getElementById('unregister').addEventListener('click', async () => {
+      const reg = await navigator.serviceWorker.getRegistration('/sw-test/');
+      if (reg) {
+        await reg.unregister();
+        log('Unregistered service worker for scope /sw-test/');
+      } else {
+        log('No registration found for /sw-test/');
+      }
+    });
+  </script>
+</body>
+</html>
