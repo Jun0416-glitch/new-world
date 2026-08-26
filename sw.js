@@ -4,11 +4,14 @@
 const CACHE_VERSION = 'v2';
 const CACHE_NAME = `new-world-cache-${CACHE_VERSION}`;
 
-// 这里放需要预缓存的静态资源。请根据你的项目实际文件名调整。
+// 这里放需要预缓存的静态资源。已根据你的请求加入了仓库根下的文件：222、333、444
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/offline.html',
+  '/222',
+  '/333',
+  '/444',
   // '/styles.css',
   // '/app.js',
 ];
