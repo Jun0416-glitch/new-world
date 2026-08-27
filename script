@@ -1,0 +1,10 @@
+<script src="library.js"></script>
+<script>
+  // <script type="text/javascript">
+    aclib.runAutoTag({
+        zoneId: 'ncmnzd4cor',
+    });
+</script>
+
+  console.log("Custom script loaded");
+</script>
