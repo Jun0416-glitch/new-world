@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人日志</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, sans-serif;
+        }
+        body {
+            background-color: #f4f6f8;
+            padding: 24px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #222;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .input-area {
+            background: #fff;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #00000012;
+            margin-bottom: 24px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 15px;
+            resize: vertical;
+        }
+        button {
+            margin-top:12px;
+            padding: 9px 20px;
+            background:#3b82f6;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+        button:hover {
+            background:#2563eb;
+        }
+        .log-item {
+            background:#ffffff;
+            padding:16px;
+            border-radius:10px;
+            margin-bottom:14px;
+            box-shadow: 0 1px 6px #00000010;
+        }
+        .log-time {
+            font-size:13px;
+            color:#888;
+            margin-bottom:8px;
+        }
+        .log-content {
+            font-size:15px;
+            color:#333;
+            line-height:1.6;
+        }
+    </style>
+</head>
+<body>
+    <h1>📒 我的个人日志</h1>
+
+    <div class="input-area">
+        <textarea id="logText" placeholder="在这里写下今日的记录、想法、心情……"></textarea>
+        <button onclick="addLog()">保存日志</button>
+    </div>
+
+    <div id="logList"></div>
+
+<script>
+// 内存存储日志
+let logList = [];
+
+// 渲染日志
+function renderLogs(){
+    const dom = document.getElementById('logList');
+    dom.innerHTML = '';
+    logList.forEach(item=>{
+        const div = document.createElement('div');
+        div.className = 'log-item';
+        div.innerHTML = `
+            <div class="log-time">${item.time}</div>
+            <div class="log-content">${item.content}</div>
+        `;
+        dom.appendChild(div);
+    })
+}
+
+// 添加日志
+function addLog(){
+    const textDom = document.getElementById('logText');
+    const content = textDom.value.trim();
+    if(!content) return;
+
+    const now = new Date();
+    const timeStr = now.toLocaleString('zh-CN');
+    logList.unshift({
+        time: timeStr,
+        content: content
+    });
+
+    textDom.value = '';
+    renderLogs();
+}
+
+renderLogs();
+</script>
+<script type="text/javascript">
+aclib.runPop({
+    zoneId: "你的ZoneID"
+});
+</script>
+
+</body>
+</html>
