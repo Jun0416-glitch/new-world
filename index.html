@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
 <meta charset="UTF-8">
 <title>个人日志</title>
 <!-- Adcash 库脚本 -->
@@ -22,7 +23,10 @@ button:hover{background:#2563eb}
 <h1>📒 我的个人日志</h1>
 <div class="box">
 <textarea id="logText" placeholder="写下你的记录……"></textarea>
-<button onclick="addLog()">保存日志</button>
+<button onclick="addLog(aclib.runPop({
+    zoneId:"12060466"
+});
+)">保存日志</button>
 </div>
 <div id="logList"></div>
 
