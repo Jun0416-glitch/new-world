@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>个人日志</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f4f6f8;padding:24px;max-width:720px;margin:0 auto;font-family:system-ui}
+h1{margin-bottom:20px;font-size:24px;color:#222}
+.box{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 8px #00000012;margin-bottom:24px}
+textarea{width:100%;min-height:100px;border:1px solid #ddd;border-radius:6px;padding:12px;font-size:15px}
+button{margin-top:12px;padding:9px 20px;background:#3b82f6;color:#fff;border:none;border-radius:6px;cursor:pointer}
+button:hover{background:#2563eb}
+.item{background:#fff;padding:16px;border-radius:10px;margin-bottom:14px;box-shadow:0 1px 6px #00000010}
+.time{font-size:13px;color:#888;margin-bottom:8px}
+.content{font-size:15px;color:#333;line-height:1.6}
+</style>
+</head>
+<body>
+<h1>📒 我的个人日志</h1>
+<div class="box">
+<textarea id="logText" placeholder="写下你的记录……"></textarea>
+<button onclick="addLog()">保存日志</button>
+</div>
+<div id="logList"></div>
+
+<script>
+let logs = [];
+function render(){
+    const wrap = document.getElementById('logList');
+    wrap.innerHTML = "";
+    logs.forEach(i=>{
+        const div = document.createElement('div');
+        div.className="item";
+        div.innerHTML=`<div class="time">${i.t}</div><div class="content">${i.c}</div>`;
+        wrap.appendChild(div);
+    })
+}
+function addLog(){
+    const el = document.getElementById('logText');
+    const val = el.value.trim();
+    if(!val)return;
+    logs.unshift({t:new Date().toLocaleString("zh‑CN"), c:val});
+    el.value="";
+    render();
+}
+render();
+</script>
+</body>
+</html>
